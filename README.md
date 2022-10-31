@@ -1,3 +1,7 @@
+# MyScalaNotes
+
+(Notes from reading books on Scala :) currently 'Programming in Scala, 5e' by Odersky et al)
+
 ## Functions as Object Members (Methods)
 
 ```scala
@@ -132,3 +136,64 @@ increaseOne(
 
 increaseOne(i => i + 7)
 ```
+
+## Higher-Order Functions
+
+```scala
+object FileMatcher:
+  private def filesHere = (new java.io.File(".")).listFiles
+
+  def filesMatching(matcher: (String, String) => Boolean) =
+    for file <- filesHere if matcher(file.getName)
+    yield file
+
+  def filesEnding(query: String) =
+    filesMatching(query, _.endsWith(query))
+
+  def filesContaining(query: String) =
+    filesMatching(query, _.contains(query))
+
+  def filesRegex(query: String) =
+    filesMatching(query, _.matches(query))
+```
+
+## Currying
+
+Without currying:
+
+```scala
+def sum(x: Int, y: Int) = x + y
+sum(1, 2) // 3
+```
+
+With currying:
+
+```scala
+def sum(x: Int)(y: Int) = x + y
+sum(1)(2)
+```
+
+## Creating New Control Patterns
+
+```scala
+def withPrintWriter(file: File)(op: PrintWriter => Unit) =
+  val writer = new PrintWriter(file)
+  try op(writer)
+  finally writer.close()
+
+withPrintWriter(new File("date.txt")) { writer =>
+  writer.println(new java.util.Date)
+}
+```
+
+## By-Name Parameters
+
+```scala
+def byNameAssert(predicate: => Boolean) =
+  if !predicate then
+    throw new AssertionError
+
+byNameAssert(5 > 3)
+```
+
+
