@@ -1,5 +1,9 @@
 # MyScalaNotes
 
+## Useful Things
+
+![scala-cli](https://scala-cli.virtuslab.org/docs/cookbooks/intro)
+
 (Notes from reading books on Scala :) currently 'Programming in Scala, 5e' by Odersky et al)
 
 ## Functions as Object Members (Methods)
